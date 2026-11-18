@@ -13,6 +13,7 @@
 | M5 工时切段 | 查看并复算工时切段 | `/api/m5_calculate` | `app/modules/m5_calculate/rules.py` | `tests/test_calculate.py` |
 | M6 薪资对账 | 查看并复算薪资对账 | `/api/m6_reconcile` | `app/modules/m6_reconcile/compare.py` | `tests/test_reconcile.py` |
 | M7 周期归档 | 查看并复算周期归档 | `/api/m7_archive` | `app/modules/m7_archive/export_out.py` | `tests/test_archive.py` |
+| 期间核算 | 登记到件接收、查看班次状态 | `/api/intake`、`/api/period` | `app/ledger.py` | `tests/test_intake.py` |
 
 ## 陷阱登记
 
@@ -31,6 +32,9 @@
 | TRAP-26 | 旧版本复核 | 覆盖新结论 | 事务条件更新 | `app/store.py` | `tests/test_archive.py::test_stale_review` |
 | TRAP-23 | 休息与跨夜端点 | 重复或漏计 | 半开区间切片 | `app/modules/m4_segments/rules.py` | `tests/test_segments.py::test_break_removed` |
 | TRAP-19 | 假日与周末重叠 | 费率相加 | 假日优先 | `app/modules/m5_calculate/rules.py` | `tests/test_calculate.py::test_holiday_overrides_rest` |
+| TRAP-27 | 同源重复到件 | 重复批次与金额 | 内容哈希幂等命中 | `app/ledger.py` | `tests/test_intake.py::test_idempotent_reintake` |
+| TRAP-28 | 同源内容更新 | 新旧结果并存 | 旧批次取代、旧期间失效重算 | `app/ledger.py` | `tests/test_intake.py::test_source_update_invalidates` |
+| TRAP-29 | 单边卡直接核算 | 整班隔离工资暂缺 | 等卡状态不计金额不阻塞 | `app/ledger.py` | `tests/test_intake.py::test_waiting_then_ready` |
 
 ## 对账规则
 
